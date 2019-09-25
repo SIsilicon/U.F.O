@@ -1,0 +1,140 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://UFO/UFO.gd" type="Script" id=1]
+[ext_resource path="res://UFO/UFO_default.png" type="Texture" id=2]
+[ext_resource path="res://UFO/UFO_normal.png" type="Texture" id=3]
+[ext_resource path="res://UFO/UFO_emissive.png" type="Texture" id=4]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0001.png" type="Texture" id=5]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0002.png" type="Texture" id=6]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0003.png" type="Texture" id=7]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0004.png" type="Texture" id=8]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0005.png" type="Texture" id=9]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0006.png" type="Texture" id=10]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0007.png" type="Texture" id=11]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0008.png" type="Texture" id=12]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0009.png" type="Texture" id=13]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0010.png" type="Texture" id=14]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0011.png" type="Texture" id=15]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0012.png" type="Texture" id=16]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0013.png" type="Texture" id=17]
+[ext_resource path="res://UFO/OutOfBounds_sprites/out_o_bounds0014.png" type="Texture" id=18]
+[ext_resource path="res://UFO/Halo.png" type="Texture" id=19]
+[ext_resource path="res://UFO/OutOfBounds.wav" type="AudioStream" id=20]
+[ext_resource path="res://UFO/UFOCollision.wav" type="AudioStream" id=21]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.2
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 77.0
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+render_mode blend_add;
+
+uniform float brightness = 1.0;
+
+vec4 getTexture(sampler2D tex, vec2 uv, float lod, vec2 screen) {
+	float hash = fract(sin(dot(screen, vec2(12.9898, 78.233))) * 43758.5453);
+	vec4 sample = textureLod(tex, uv, lod);
+	return vec4(floor(sample.x * 256.0 + hash * 0.5) / 256.0);
+}
+
+void fragment() {
+	COLOR = getTexture(TEXTURE, UV, 0, SCREEN_UV);
+	COLOR += getTexture(TEXTURE, UV, 1, SCREEN_UV);
+	COLOR += getTexture(TEXTURE, UV, 2, SCREEN_UV);
+	COLOR += getTexture(TEXTURE, UV, 3, SCREEN_UV);
+	COLOR += getTexture(TEXTURE, UV, 4, SCREEN_UV);
+	COLOR += getTexture(TEXTURE, UV, 5, SCREEN_UV);
+	COLOR *= brightness / 5.0;
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/brightness = 4.0
+
+[sub_resource type="CanvasItemMaterial" id=5]
+blend_mode = 1
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "default",
+"speed": 24.0
+} ]
+
+[sub_resource type="CanvasItemMaterial" id=7]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="AudioStreamRandomPitch" id=8]
+audio_stream = ExtResource( 21 )
+random_pitch = 1.23
+
+[node name="UFO" type="RigidBody2D"]
+collision_mask = 6
+physics_material_override = SubResource( 1 )
+contacts_reported = 1
+contact_monitor = true
+angular_velocity = -0.871
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+defense = 10.0
+
+[node name="IsVisible" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -1.19209e-006, -1.19209e-006 )
+rect = Rect2( -77, -77, 154, 154 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 1.01078, 1 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.505882, 0.505882, 0.505882, 1 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
+
+[node name="SpriteGlow" type="Sprite" parent="."]
+modulate = Color( 0.454902, 1, 0.345098, 1 )
+material = SubResource( 4 )
+scale = Vector2( 0.425, 0.425 )
+texture = ExtResource( 4 )
+
+[node name="OutOfBoundsField" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 5 )
+scale = Vector2( 1.4, 1.4 )
+frames = SubResource( 6 )
+
+[node name="OOBHalo" type="Sprite" parent="OutOfBoundsField"]
+modulate = Color( 0, 1, 0.952941, 1 )
+material = SubResource( 7 )
+texture = ExtResource( 19 )
+
+[node name="OOBLight" type="Light2D" parent="OutOfBoundsField"]
+texture = ExtResource( 19 )
+energy = 0.01
+range_height = 12.5
+
+[node name="OOBSound" type="AudioStreamPlayer2D" parent="OutOfBoundsField"]
+pause_mode = 2
+stream = ExtResource( 20 )
+volume_db = -5.74
+bus = "Sound Effects"
+
+[node name="CollisionSound" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
+stream = SubResource( 8 )
+pitch_scale = 0.8
+bus = "Sound Effects"
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_collision"]
+[connection signal="screen_exited" from="IsVisible" to="." method="_on_IsVisible_screen_exited"]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

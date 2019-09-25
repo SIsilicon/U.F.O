@@ -1,0 +1,31 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode blend_add, unshaded;
+
+uniform vec4 coreColor : hint_color;
+uniform vec4 haloColor : hint_color;
+
+uniform float coreRadius;
+uniform float haloFalloff;
+
+void fragment() {
+	float d = distance(UV, vec2(0.5)) * 2.0;
+	if(d <= coreRadius) {
+		COLOR = coreColor;
+	} else {
+		float e = smoothstep(0, 1, (d - coreRadius) / (1.0 - coreRadius));
+		e = pow(e, haloFalloff);
+		vec3 rgb = mix(coreColor.rgb, haloColor.rgb, e);
+		COLOR = vec4(rgb, 1.0 - e);
+	}
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/coreColor = Color( 1, 1, 1, 1 )
+shader_param/haloColor = Color( 18.14, 18.14, 18.14, 1 )
+shader_param/coreRadius = 0.08
+shader_param/haloFalloff = 0.23
+

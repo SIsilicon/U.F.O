@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/OutOfBounds.wav-d3c994ef26ba3dceb12e241cc5818e47.sample"
+
+[deps]
+
+source_file="res://UFO/OutOfBounds.wav"
+dest_files=[ "res://.import/OutOfBounds.wav-d3c994ef26ba3dceb12e241cc5818e47.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=true
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=true
+edit/loop=false
+compress/mode=0

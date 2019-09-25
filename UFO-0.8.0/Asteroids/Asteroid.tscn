@@ -1,0 +1,266 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Asteroids/Asteroid.gd" type="Script" id=1]
+[ext_resource path="res://Asteroids/Shapes/asteroid1_normal.png" type="Texture" id=2]
+[ext_resource path="res://Asteroids/Shapes/asteroid2_normal.png" type="Texture" id=3]
+[ext_resource path="res://Asteroids/Shapes/asteroid3_normal.png" type="Texture" id=4]
+[ext_resource path="res://Asteroids/Shapes/asteroid4_normal.png" type="Texture" id=5]
+[ext_resource path="res://Asteroids/Shapes/asteroid5_normal.png" type="Texture" id=6]
+[ext_resource path="res://Asteroids/Shapes/asteroid6_normal.png" type="Texture" id=7]
+[ext_resource path="res://Asteroids/Shapes/asteroid7_normal.png" type="Texture" id=8]
+[ext_resource path="res://Effects/Explosion/ExplosionSprites/explosion0026.png" type="Texture" id=9]
+[ext_resource path="res://Asteroids/Explosion.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/SQUARE.tres" type="Theme" id=11]
+[ext_resource path="res://Square.ttf" type="DynamicFontData" id=12]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.39
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+void fragment() {
+	float alpha = texture(NORMAL_TEXTURE, UV).a;
+	COLOR = vec4(texture(TEXTURE, UV).rgb * 0.25, alpha);
+	NORMAL = texture(NORMAL_TEXTURE, UV).rgb * 2.0 - 1.0;
+	NORMAL.y *= -1.0;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="OpenSimplexNoise" id=4]
+seed = 2
+octaves = 5
+period = 94.7
+persistence = 0.533
+lacunarity = 1.84
+
+[sub_resource type="NoiseTexture" id=5]
+seamless = true
+noise = SubResource( 4 )
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0.511111, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 1 )
+
+[sub_resource type="Animation" id=9]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Explosion:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:asteroid_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1.03526 ),
+"update": 0,
+"values": [ Color( 0.388235, 0.388235, 0.388235, 1 ), Color( 0.388235, 0.388235, 0.388235, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:angular_velocity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0.0 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("Explosion")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "restart"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Explosion:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="DynamicFont" id=10]
+size = 60
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 12 )
+
+[node name="Asteroid" type="RigidBody2D" groups=[
+"asteroids",
+]]
+collision_layer = 2
+collision_mask = 25
+mass = 20.0
+physics_material_override = SubResource( 1 )
+contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+script = ExtResource( 1 )
+
+[node name="IsVisible" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -256, -256, 512, 512 )
+
+[node name="Asteroid_1" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 44.1583, -195.895, 112.579, -182.21, 248.369, -29.5786, 227.316, 125.158, 179.948, 194.632, 83.2455, 220.062, -49.5261, 222.001, -152.684, 171.474, -253.737, -19.0522, -205.316, -136.947, -101.105, -219.052, -1.10495, -222.21 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_1"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 2 )
+
+[node name="Asteroid_2" type="CollisionPolygon2D" parent="."]
+editor/display_folded = true
+visible = false
+polygon = PoolVector2Array( 50.886, -250.31, 160.922, -202.075, 236.289, -79.9803, 189.561, 123.511, 40.3346, 248.62, -142.054, 218.473, -205.362, 123.511, -208.377, -72.4435, -98.3408, -205.09 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_2"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 3 )
+
+[node name="Asteroid_3" type="CollisionPolygon2D" parent="."]
+editor/display_folded = true
+visible = false
+polygon = PoolVector2Array( 31.4013, -241.425, 154.175, -224.625, 203.285, -163.884, 244.64, -10.0936, 222.67, 143.697, 110.235, 207.022, -25.4624, 250.963, -155.99, 185.052, -229.655, 92.0026, -225.778, -77.2961, -92.6649, -234.964 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_3"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 4 )
+
+[node name="Asteroid_4" type="CollisionPolygon2D" parent="."]
+editor/display_folded = true
+visible = false
+polygon = PoolVector2Array( -7.91647, -240.088, 97.3468, -200.199, 123.94, -148.122, 217.015, -74.9913, 250.256, -0.753021, 187.098, 128.887, 57.4576, 217.53, -65.5343, 219.746, -218.443, 92.3219, -240.604, -39.5342, -161.933, -200.199 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_4"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 5 )
+
+[node name="Asteroid_5" type="CollisionPolygon2D" parent="."]
+editor/display_folded = true
+visible = false
+polygon = PoolVector2Array( 20.6847, -221.21, 128.053, -172.789, 223.843, -90.6839, 250.159, 53.5267, 217.527, 152.474, 73.3163, 228.264, -49.8417, 226.159, -217.21, 136.685, -248.789, -85.4208, -173, -172.789, -81.4207, -232.789 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_5"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 6 )
+
+[node name="Asteroid_6" type="CollisionPolygon2D" parent="."]
+editor/display_folded = true
+visible = false
+polygon = PoolVector2Array( 15.2241, -246.019, 133.087, -220.236, 205.524, -75.3632, 223.94, 117.392, 212.89, 157.907, 74.1556, 238.938, -103.867, 219.294, -232.779, 91.6093, -215.591, -133.067, -118.599, -200.593 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_6"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 7 )
+
+[node name="Asteroid_7" type="CollisionPolygon2D" parent="."]
+editor/display_folded = true
+visible = false
+polygon = PoolVector2Array( -114.916, -247.247, 75.3832, -188.315, 185.88, -45.8973, 244.811, 96.5204, 183.424, 119.847, 155.186, 214.383, 54.5117, 231.572, 13.9963, 210.7, -103.867, 207.017, -202.086, 118.62, -215.591, 57.2328, -248.74, 19.1728, -146.838, -131.839 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid_7"]
+material = SubResource( 3 )
+texture = SubResource( 5 )
+normal_map = ExtResource( 8 )
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+visible = false
+material = SubResource( 6 )
+emitting = false
+amount = 200
+lifetime = 0.5
+one_shot = true
+randomness = 1.0
+local_coords = false
+texture = ExtResource( 9 )
+emission_shape = 1
+emission_sphere_radius = 128.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 726.16
+initial_velocity_random = 0.37
+linear_accel = -500.0
+scale_amount = 0.4
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
+hue_variation = -0.87
+hue_variation_random = 0.08
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 10 )
+bus = "Sound Effects"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Explode = SubResource( 9 )
+
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_right = 111.0
+margin_bottom = 64.0
+theme = ExtResource( 11 )
+custom_fonts/font = SubResource( 10 )
+text = "+100"
+align = 1
+valign = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_collision"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="screen_exited" from="IsVisible" to="." method="_on_IsVisible_screen_exited"]
