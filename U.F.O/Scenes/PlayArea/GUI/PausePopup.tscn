@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/SQUARE.tres" type="Theme" id=1]
+[ext_resource path="res://Scenes/PlayArea/GUI/PausePopup.gd" type="Script" id=2]
+
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.66298 )
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color( 0, 0, 0, 0.933686 )
+border_blend = true
+expand_margin_left = 7.0
+expand_margin_right = 7.0
+expand_margin_top = 7.0
+expand_margin_bottom = 7.0
+shadow_size = 7
+anti_aliasing_size = 5
+
+[sub_resource type="ButtonGroup" id=2]
+
+[node name="PausePopup" type="PopupDialog"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 366.0
+margin_top = 175.0
+margin_right = -366.0
+margin_bottom = -175.0
+rect_min_size = Vector2( 600, 400 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+popup_exclusive = true
+script = ExtResource( 2 )
+
+[node name="Background" type="Panel" parent="."]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1280.0
+margin_top = -1280.0
+margin_right = 1280.0
+margin_bottom = 1280.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 1 )
+
+[node name="Margin" type="MarginContainer" parent="."]
+use_parent_material = true
+margin_right = 600.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 600, 400 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 100
+custom_constants/margin_top = 50
+custom_constants/margin_left = 100
+custom_constants/margin_bottom = 50
+
+[node name="VerticalAlign" type="VBoxContainer" parent="Margin"]
+use_parent_material = true
+margin_left = 100.0
+margin_top = 50.0
+margin_right = 500.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+custom_constants/separation = 16
+alignment = 1
+
+[node name="Resume" type="Button" parent="Margin/VerticalAlign"]
+use_parent_material = true
+margin_right = 400.0
+margin_bottom = 89.0
+focus_mode = 0
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+group = SubResource( 2 )
+text = "Resume"
+
+[node name="Quit" type="Button" parent="Margin/VerticalAlign"]
+use_parent_material = true
+margin_top = 105.0
+margin_right = 400.0
+margin_bottom = 194.0
+focus_mode = 0
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+group = SubResource( 2 )
+text = "Quit"
+
+[node name="Useless" type="Button" parent="Margin/VerticalAlign"]
+use_parent_material = true
+margin_top = 210.0
+margin_right = 400.0
+margin_bottom = 300.0
+focus_mode = 0
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+group = SubResource( 2 )
+text = "Useless Button"
+
+[connection signal="pressed" from="Margin/VerticalAlign/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="pressed" from="Margin/VerticalAlign/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="Margin/VerticalAlign/Useless" to="." method="_on_Useless_pressed"]

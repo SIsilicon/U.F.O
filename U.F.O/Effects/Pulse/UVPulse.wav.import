@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/UVPulse.wav-345a40fc780570051a7d881041d4127d.sample"
+
+[deps]
+
+source_file="res://Effects/Pulse/UVPulse.wav"
+dest_files=[ "res://.import/UVPulse.wav-345a40fc780570051a7d881041d4127d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=true
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=true
+edit/loop=false
+compress/mode=0

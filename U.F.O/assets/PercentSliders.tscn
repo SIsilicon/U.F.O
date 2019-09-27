@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/PercentSliders.gd" type="Script" id=1]
+
+[node name="PercentSlider" type="HBoxContainer"]
+margin_right = 700.0
+margin_bottom = 22.0
+script = ExtResource( 1 )
+value = 50.0
+
+[node name="Label" type="Label" parent="."]
+margin_top = 3.0
+margin_right = 89.0
+margin_bottom = 28.0
+text = "Percent:"
+
+[node name="Percent" type="Label" parent="."]
+margin_left = 97.0
+margin_top = 3.0
+margin_right = 167.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "100%"
+
+[node name="HSlider" type="HSlider" parent="."]
+margin_left = 175.0
+margin_right = 700.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 7.4
+value = 100.0
+tick_count = 10
+ticks_on_borders = true
+
+[connection signal="value_changed" from="HSlider" to="." method="_on_HSlider_value_changed"]

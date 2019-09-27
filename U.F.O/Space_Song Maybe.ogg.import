@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Space_Song Maybe.ogg-46e97b2c15bb51cf13bc6c0fb3c32b92.oggstr"
+
+[deps]
+
+source_file="res://Space_Song Maybe.ogg"
+dest_files=[ "res://.import/Space_Song Maybe.ogg-46e97b2c15bb51cf13bc6c0fb3c32b92.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0.09

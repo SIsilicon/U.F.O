@@ -1,0 +1,18 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/ShootingStar-tail.obj-ad390f444731611d4e0ae34eced100d3.mesh"
+
+[deps]
+
+files=[ "res://.import/ShootingStar-tail.obj-ad390f444731611d4e0ae34eced100d3.mesh" ]
+
+source_file="res://Powerups/ShootingStar/ShootingStar-tail.obj"
+dest_files=[ "res://.import/ShootingStar-tail.obj-ad390f444731611d4e0ae34eced100d3.mesh", "res://.import/ShootingStar-tail.obj-ad390f444731611d4e0ae34eced100d3.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 32, 32, 1 )
+optimize_mesh=true
