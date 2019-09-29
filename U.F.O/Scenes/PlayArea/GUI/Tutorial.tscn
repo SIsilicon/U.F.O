@@ -36,7 +36,6 @@
 [ext_resource path="res://Effects/Pulse/Pulse_Sprites/0009.png" type="Texture" id=34]
 [ext_resource path="res://Effects/Pulse/Pulse_Sprites/0010.png" type="Texture" id=35]
 
-
 [sub_resource type="DynamicFont" id=1]
 size = 30
 font_data = ExtResource( 3 )
@@ -185,7 +184,6 @@ color = Color( 1, 1, 1, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Transition = SubResource( 3 )
-
 [connection signal="dialog_complete" from="." to="." method="_on_Tutorial_dialog_complete"]
 [connection signal="dialog_progressed" from="." to="." method="_on_Tutorial_dialog_progressed"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

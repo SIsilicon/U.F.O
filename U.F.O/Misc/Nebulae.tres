@@ -64,4 +64,3 @@ shader_param/density = 0.19
 shader_param/color_map = SubResource( 5 )
 shader_param/color_function = SubResource( 3 )
 shader_param/density_map = SubResource( 7 )
-

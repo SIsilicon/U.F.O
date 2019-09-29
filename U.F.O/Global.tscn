@@ -39,4 +39,3 @@ mix_target = 2
 bus = "Music"
 
 [node name="Tween" type="Tween" parent="."]
-

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/PlayArea/PlayArea.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/PlayArea/PowerupHandler.gd" type="Script" id=2]
@@ -10,22 +10,41 @@
 [ext_resource path="res://Scenes/PlayArea/GUI/PausePopup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/PlayArea/GUI/GameOverPopup.tscn" type="PackedScene" id=9]
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1280, 720 )
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+render_mode unshaded, blend_add;
+
+void fragment() {
+	COLOR = vec4(1, 0, 0, pow(distance(vec2(0.5), UV) * 1.3, 3.14159));
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="CanvasItemMaterial" id=4]
 light_mode = 1
 
-[node name="PlayArea" type="Node2D"]
+[node name="PlayArea" type="Area2D"]
 script = ExtResource( 1 )
+zoom_margin = 0.413
+
+[node name="Area" type="CollisionShape2D" parent="."]
+position = Vector2( 640, 360 )
+shape = SubResource( 1 )
 
 [node name="PowerupHandler" type="Node2D" parent="."]
 script = ExtResource( 2 )
 min_time = 5.0
-max_time = 45.0
+max_time = 30.0
 
 [node name="AsteroidHandler" type="Node2D" parent="."]
 script = ExtResource( 3 )
-speed = 500.0
-focus = 0.5
-frequency = 0.51
+speed = 400.0
+focus = 0.361
+frequency = 0.76
 
 [node name="PulseHandler" type="Node2D" parent="."]
 script = ExtResource( 4 )
@@ -33,7 +52,18 @@ script = ExtResource( 4 )
 [node name="StarLightHandler" type="Node2D" parent="."]
 script = ExtResource( 5 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 640, 360 )
+current = true
+smoothing_speed = 2.86
+
 [node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Border" type="ColorRect" parent="GUI"]
+modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 3 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="GameHUD" parent="GUI" instance=ExtResource( 6 )]
 visible = false
@@ -49,7 +79,7 @@ visible = false
 speed = 50.0
 
 [node name="PausePopup" parent="GUI" instance=ExtResource( 8 )]
-material = SubResource( 1 )
+material = SubResource( 4 )
 margin_left = 320.0
 margin_top = 180.0
 margin_right = -320.0
@@ -59,7 +89,4 @@ margin_bottom = -180.0
 margin_bottom = -120.0
 
 [node name="Tween" type="Tween" parent="."]
-
-[node name="Sprite" type="Sprite" parent="."]
-
 [connection signal="dialog_complete" from="GUI/Tutorial" to="." method="_on_Tutorial_dialog_complete"]

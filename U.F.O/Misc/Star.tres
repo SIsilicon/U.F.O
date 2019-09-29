@@ -28,4 +28,3 @@ shader_param/coreColor = Color( 1, 1, 1, 1 )
 shader_param/haloColor = Color( 18.14, 18.14, 18.14, 1 )
 shader_param/coreRadius = 0.08
 shader_param/haloFalloff = 0.23
-

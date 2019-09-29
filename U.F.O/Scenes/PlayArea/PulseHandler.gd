@@ -32,7 +32,6 @@ var i = 0
 
 func _input(event : InputEvent):
 	if event is InputEventScreenTouch and event.pressed and enabled:
-		Global.ufo.push_UFO(event.get_position(), 250)
 		var pulse = Pulse.instance()
 		pulse.add_to_group("pulses")
 		pulse.global_position = get_global_mouse_position()

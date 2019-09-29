@@ -17,11 +17,12 @@ var play_count := 0
 
 var settings = {} setget set_settings
 
-onready var window_size = get_viewport().size
+var window_size 
 
 var easter_egg = false
 
 func _enter_tree():
+	window_size = get_viewport().size
 	load_playcount()
 	load_highscore()
 	load_settings()

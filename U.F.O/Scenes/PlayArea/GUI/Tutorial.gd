@@ -110,7 +110,7 @@ func _on_UFO_damage_taken(hp):
 	
 	$Button.show()
 	$AnimationPlayer.play("Transition")
-	if ufo.OutOfBounds:
+	if ufo.out_of_bounds:
 		oob1 = true
 		oob2 = true
 		set_index(13)

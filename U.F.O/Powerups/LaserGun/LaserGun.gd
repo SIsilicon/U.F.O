@@ -1,6 +1,6 @@
 extends "../Powerup.gd"
 
-onready var background = $BackgroundSprite
+onready var background = $CanvasLayer/ColorRect
 onready var gun = $Guns
 onready var remote_trans = $RemoteTransform2D
 

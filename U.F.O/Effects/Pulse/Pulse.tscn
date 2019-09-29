@@ -4,7 +4,6 @@
 [ext_resource path="res://Effects/Pulse/Pulse.gd" type="Script" id=2]
 [ext_resource path="res://Effects/Pulse/UVPulse.wav" type="AudioStream" id=3]
 
-
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
 light_mode = 1

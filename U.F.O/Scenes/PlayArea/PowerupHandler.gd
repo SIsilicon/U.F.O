@@ -8,7 +8,8 @@ var active_powers : Dictionary = {}
 
 const Powerups = [preload("res://Powerups/LaserGun/LaserGun.tscn"),
 		preload("res://Powerups/ShootingStar/ShootingStar.tscn"),
-		preload("res://Powerups/RepairBox/RepairBox.tscn")]
+		preload("res://Powerups/RepairBox/RepairBox.tscn"),
+		preload("res://Powerups/AutoPulse/AutoPulse.tscn")]
 
 func _ready():
 	add_child(powerup_spawn_timer)
@@ -19,7 +20,6 @@ func reset_timer_icon(icon):
 	reset_timer()
 
 func reset_timer():
-	print("reset_timer")
 	powerup_spawn_timer.wait_time = rand_range(min_time, max_time)
 	powerup_spawn_timer.start()
 
@@ -30,6 +30,7 @@ func _on_PowerupTimer_timeout():
 	var powerup = Powerups[floor(rand_range(0, Powerups.size()))].instance()
 	powerup.linear_velocity = Vector2(240, 0)
 	powerup.position = Vector2(-80, rand_range(0, get_viewport_rect().size.y))
+	powerup.position = get_parent().transform_by_zoom(powerup.position)
 	
 	powerup.connect("tree_exited", self, "reset_timer")
 	powerup.handler = self

@@ -47,6 +47,7 @@ func _on_body_entered(body : PhysicsBody2D):
 			ufo.connect("killed", self, "_on_UFO_killed")
 			$CollisionShape2D.set_deferred("disabled", true)
 			active = true
+			linear_velocity *= 0
 			
 			var notifier = $VisibilityNotifier2D as VisibilityNotifier2D
 			notifier.disconnect("screen_exited", self, "_on_screen_exited")
